@@ -41,12 +41,6 @@ Route::get('/clear-cache', function () {
 });
 
 
-// Route::get('email-test', function(){
-//     $details['email'] = 'rathodkanchan12@gmail.com';
-//     dispatch(new App\Jobs\SendEmailJob($details));
-//     dd('done');
-// });
-
 
 
 
@@ -67,12 +61,6 @@ Route::get('/clear-cache', function () {
             Route::get('/export-profile', [displayusercontroller::class, 'exportProfile'])->name('export.profile');
 
   
-
-Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
 
 // Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
 // Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify'); 
