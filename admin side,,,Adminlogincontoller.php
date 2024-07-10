@@ -141,6 +141,35 @@ form{
     
 </body>
 </html>
+
+============================================Dashboardcontoller.php==================================
+
+<?php
+namespace App\Http\Controllers\admin;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Session;
+use App\Models\User;
+use App\Models\Note;
+use App\Models\Admin;
+use App\Models\Page;
+use Carbon\Carbon;
+use Hash;
+
+class Dashboardcontoller extends Controller
+{
+    public function index()
+    {
+        $users = User::all(); // Fetch all users (adjust query as needed)
+        return view('admin.dashboard', compact('users'));
+    }
+    public function logout()
+    {
+        Auth::guard('admin')->logout(); // Logout admin
+        return redirect('/admin/login'); // Redirect to admin login page
+    }
+    }
 =========================Route==================================
 
 
