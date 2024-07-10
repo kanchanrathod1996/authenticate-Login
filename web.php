@@ -62,21 +62,6 @@ Route::get('/clear-cache', function () {
 
   
 
-// Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
-// Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify'); 
-
-        // Route::get('/all_records',[displayusercontroller::class,'all_records'])->name('all.records');
-        // Route::get('/add-new-record',[displayusercontroller::class,'add_new_record'])->name('add.new.record');
-        // Route::any('/store-new-record',[displayusercontroller::class,'store_new_record'])->name('store.new.record');
-        // Route::get('/edit-record/{id}',[displayusercontroller::class,'edit_record'])->name('edit.record');
-        // Route::put('/update-record/{id}',[displayusercontroller::class,'update_record'])->name('update.record');
-        // Route::get('/delete-record/{id}',[displayusercontroller::class,'delete_record'])->name('delete.record');
-        
-        // Route::get('/profile', [displayusercontroller::class, 'showProfile'])->name('profile');
-        // Route::get('/profile',[displayusercontroller ::class, 'profile'])->name('front.profile'); 
-
-
-  
 
 
 Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
