@@ -43,25 +43,30 @@ Route::get('/clear-cache', function () {
 
 
 
+Route::get('', [AuthController::class, 'home']); 
 
+Route::group(['prefix' => 'user'],function(){
+
+    Route::get('registration', [AuthController::class, 'registration'])->name('register');
+    Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
      
-
-        Route::get('/', [AuthController::class, 'index'])->name('login');
+    route::group(['middleware' => 'guest'],function(){  
+        
+        Route::get('login', [AuthController::class, 'index'])->name('login');
         Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
-        Route::get('registration', [AuthController::class, 'registration'])->name('register');
-        Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
- 
- 
-            Route::get('user/edit', [UserController::class, 'edit'])->name('edit.user');
-            Route::put('user/update', [UserController::class, 'update'])->name('update.record');
-             Route::get('/all_records',[UserController::class,'all_records'])->name('all.records');
+            
+            
+    });
 
-            Route::get('dashboard', [AuthController::class, 'dashboard']); 
-            Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-            Route::get('/export-profile', [displayusercontroller::class, 'exportProfile'])->name('export.profile');
 
-  
+    route::group(['middleware' => 'auth'],function(){
 
+        Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
+        Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+        Route::get('/export-profile', [displayusercontroller::class, 'exportProfile'])->name('export.profile');
+        Route::get('user/edit', [UserController::class, 'edit'])->name('edit.user');
+        Route::put('user/update', [UserController::class, 'update'])->name('update.record');
+         Route::get('/all_records',[UserController::class,'all_records'])->name('all.records');
 
 
 Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
@@ -69,9 +74,34 @@ Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store
 Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
 Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
 Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
-Route::get('/notes/{id}',  [NoteController::class, 'show'])->name('notes.show');
+Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
 // Route to list all notes for a user
 Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+
+
+
+});
+
+});
+
+
+      
+ 
+           
+
+         
+           
+
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+
+
+
+
+  
 
 
 
@@ -94,9 +124,9 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/logout', [Dashboardcontoller::class, 'logout'])->name('admin.logout');
 
      
-        Route::get('/admin/users/{user}/notes', [Dashboardcontoller::class, 'userNotes'])->name('admin.users.notes');
-        Route::get('/admin/notes', [Dashboardcontoller::class, 'hello'])->name('admin.notes.hello');
-        Route::get('/admin/dashboard', [Dashboardcontoller::class, 'registeredUsersChart'])->name('admin.dashboard');
+        Route::get('/users/{user}/notes', [Dashboardcontoller::class, 'userNotes'])->name('admin.users.notes');
+        Route::get('/notes', [Dashboardcontoller::class, 'hello'])->name('admin.notes.hello');
+       
 
         Route::get('/userindex',[usernotescontroller::class,'userindex'])->name('user.userindex');
       Route::delete('user/{id}',[usernotescontroller::class,'destroy'])->name('delete');
@@ -108,3 +138,5 @@ Route::group(['prefix' => 'admin'],function(){
 
 
 
+
+     
