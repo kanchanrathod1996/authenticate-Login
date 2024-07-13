@@ -11,72 +11,69 @@ use App\Models\Note;
 use Hash;
   
 class AuthController extends Controller
-{
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+{ 
+  public function home()
+    {
+        return view('home');
+    }  
+      
     public function index()
     {
         return view('auth.login');
     }  
       
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+   
+   
+    public function postLogin(Request $request)
+    {
+        // Validate input data
+        $validator = Validator::make($request->only('email', 'password'), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        // Redirect back if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->only('email'));
+        }
+    
+        // Attempt to authenticate user
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
+        
+        if (Auth::attempt($credentials, $remember)) {
+            
+            return redirect()->intended(route('dashboard'))->with('success', 'You have successfully logged in.');
+        } else {
+           
+            return redirect()->back()->withInput($request->only('email'))->with('error', 'Either email/password is incorrect.');
+        }
+    }
+    
+    
     public function registration()
     {
         return view('auth.registration');
     }
       
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function postLogin(Request $request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
    
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('You have Successfully loggedin');
-        }
-  
-        return redirect("/")->withSuccess('Oppes! You have entered invalid credentials');
-    }
-      
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function postRegistration(Request $request)
-    {  
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
-           
-        $data = $request->all();
-        $check = $this->create($data);
-         
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
-    }
+   
+        public function postRegistration(Request $request)
+        {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6',
+            ]);
     
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+            $data = $request->all();
+            $check = $this->create($data);
+    
+            return redirect("/user/login")->withSuccess('Great! You have Successfully Registration ');
+          
+        }
+    
+    
     public function dashboard()
     {
         if(Auth::check()){
@@ -89,11 +86,7 @@ class AuthController extends Controller
     
 
     
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+   
     public function create(array $data)
     {
       return User::create([
@@ -103,16 +96,12 @@ class AuthController extends Controller
       ]);
     }
     
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
+   
     public function logout() {
         Session::flush();
         Auth::logout();
   
-        return Redirect('/');
+        return Redirect('');
     }
 
 
