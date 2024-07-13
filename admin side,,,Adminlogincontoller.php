@@ -45,7 +45,7 @@ class Adminlogincontoller extends Controller
 }
 
 
-============================ogin.blade.php===========================
+============================login.blade.php===========================
   
 <!DOCTYPE html>
 <html lang="en">
